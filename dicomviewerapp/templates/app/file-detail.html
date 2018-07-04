@@ -1,0 +1,44 @@
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <title>DICOM</title>
+</head>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <h1>DICOM Data Viewer</h1>
+  <p>A simple web application for inspecting DICOM files.</p> 
+</div>
+
+<div style="margin-top:50px" class="row">
+	<div style="margin-left:50px" class="col-sm-4">
+		<h2>File: {{ file.filename }}</h2>
+		<h5>Size: {{ file.filesize_str }}</h5>
+	</div>
+</div>
+
+<div style="margin-top:50px" class="row">
+	<div class="col-sm"></div>
+	<div class="col-sm"><h5>Tag</h5></div>
+	<div class="col-sm"><h5>VR</h5></div>
+	<div class="col-sm"></div>
+</div>
+
+{% for value in values %}
+	<div style="margin-top:15px; border-bottom-style:groove;" class="row">
+		<div class="col-sm"></div>
+		<div class="col-sm">
+			<div>{{ value.tag }}</div>
+			<div>{{ value.tag_desc }}</div>
+		</div>
+		<div class="col-sm">{{ value.vr_desc }}</div>
+		<div class="col-sm"></div>
+	</div>
+{% endfor %}

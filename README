@@ -1,0 +1,11 @@
+Dependencies:
+	- numpy
+	- pillow
+	- libjpeg
+	- openjpeg
+	- widget_tweaks
+
+Things that can be improved:
+	- Remove unused django cruft:
+		> INSTALLED_APPS
+	- Rewrite routing to avoid /app

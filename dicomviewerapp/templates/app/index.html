@@ -1,0 +1,125 @@
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <title>DICOM</title>
+</head>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <h1>DICOM Data Viewer</h1>
+  <p>A simple web application for inspecting DICOM files.</p> 
+</div>
+
+{% if files %}
+
+<div class="row">
+	<div class="col"></div>
+	<div class="col-8">
+		<table class="table table-striped thead-dark">
+		    <tr>
+		        <th>File Name</th>
+		        <th>File Size</th>
+		        <th>DICOM Data Values</th>
+		    </tr>
+		    {% for file in files %}
+		    <tr> 
+		        <td>{{ file.filename }}</td>
+		        <td>{{ file.filesize_str }}</td>
+		        <td>
+		        	<a href={{ file.get_absolute_url }}>
+		        		{{ file.get_num_values }}
+		        	</a>
+		        </td>
+		    </tr>
+		    {% endfor %}
+		</table>
+	</div>
+	<div class="col"></div>
+</div>
+
+<div class="row">
+	<div class="col"></div>
+	<div class="col-8">
+  		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    		Upload
+  		</button>
+	</div>
+	<div class="col"></div>
+</div>
+
+{% else %}
+
+<div class="row">
+	<div class="col"></div>
+	<div class="col-8">
+  		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    		Get Started
+  		</button>
+	</div>
+	<div class="col"></div>
+</div>
+
+{% endif %}
+
+<div class="modal fade" id="myModal">
+	<div class="modal-dialog modal-dialog-centered">
+    	<div class="modal-content">
+
+			<div class="modal-header">
+			  <h4 class="modal-title">Upload a DICOM Image</h4>
+			</div>
+
+			<div class="modal-body">
+				<form enctype="multipart/form-data" action="/app/upload/" method="post" novalidate>
+				  {% csrf_token %}
+
+				  {% for hidden_field in form.hidden_fields %}
+				    {{ hidden_field }}
+				  {% endfor %}
+
+				  {% if form.non_field_errors %}
+				    <div class="alert alert-danger" role="alert">
+				      {% for error in form.non_field_errors %}
+				        {{ error }}
+				      {% endfor %}
+				    </div>
+				  {% endif %}
+
+				  {% for field in form.visible_fields %}
+				    <div class="form-group">
+				      {{ field.label_tag }}
+
+				      {% if form.is_bound %}
+				        {% if field.errors %}
+				          {% render_field field class="form-control is-invalid" %}
+				          {% for error in field.errors %}
+				            <div class="invalid-feedback">
+				              {{ error }}
+				            </div>
+				          {% endfor %}
+				        {% else %}
+				          {% render_field field class="form-control is-valid" %}
+				        {% endif %}
+				      {% else %}
+				        {% render_field field class="form-control" %}
+				      {% endif %}
+
+				      {% if field.help_text %}
+				        <small class="form-text text-muted">{{ field.help_text }}</small>
+				      {% endif %}
+				    </div>
+				  {% endfor %}
+
+				  <button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+			</div>
+    	</div>
+	</div>
+</div>
