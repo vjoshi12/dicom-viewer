@@ -1,5 +1,7 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render
+from django.core.files import File
+from django.core.files.storage import FileSystemStorage
 from django.core.files.storage import default_storage as storage
 from django.contrib import messages
 from .forms import UploadForm
@@ -45,7 +47,10 @@ def get_values(fields, values):
 	return get_values(fields, values)
 
 def handle_upload(file):
-	fields, thumbnail = dparse.parse_file(file.name, file)
+        fs = FileSystemStorage()
+        filename = fs.save(file.name, file)
+        location = fs.location
+	fields, thumbnail = dparse.parse_file(location + "/" + filename)
 	size = file.size
 	new_file = DicomFile(filename=file.name, filesize=file.size)
 	for f in fields:
@@ -56,8 +61,8 @@ def handle_upload(file):
 		nv.file = new_file
 		nv.save()
 	if thumbnail is not None:
-		t = DicomThumbnail.objects.create()
-		t.thumbnail(thumbnail, File().read())
+		t = DicomThumbnail()
+		t.thumbnail = File(open(thumbnail, "r"))
 		t.file = new_file
 		t.save()
 
@@ -74,8 +79,6 @@ def upload(request):
 		handle_upload(request.FILES['file'])
 	except dparse.NotDicomException:
 		messages.error(request, "The file you tried to upload was not a DICOM file. Please try again.")
-	except:
-		messages.error(request, "There was an error parsing this DICOM file.")
 	return HttpResponseRedirect('/app')
 
 def details(request, pk):

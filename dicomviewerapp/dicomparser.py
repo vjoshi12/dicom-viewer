@@ -129,7 +129,8 @@ def print_field(field):
 		data = str(len(field["data"])) + " bytes"
 	print "\t(" + g + "," + e + ") - " + vr + ": " + data
 
-def parse_file(filename, f):
+def parse_file(filename):
+    with open(filename, "rb") as f:
 	f.seek(0)
 	f.read(128)
 	header = f.read(4)
@@ -155,25 +156,18 @@ def parse_file(filename, f):
 	thumbnail = None
 	for field in data_fields:
 		if field["group"] == 0x7fe0 and field["element"] == 0x10:
-			try:
-				thumbnail = save_thumbnail(filename)
-			except:
-				print "\tSaving thumbnail failed for {}".format(filename)
+			thumbnail = save_thumbnail(filename)
 			break
 
 	return (meta_fields + data_fields), thumbnail
 
-def parse_file_from_str(filename):
-	with open(filename, "rb") as f:
-		parse_file(filename, f)
-		
 if __name__ == "__main__":
 	files = [os.path.join(dp, f) for dp, dn, fnames in os.walk(sys.argv[1]) for f in fnames]
 	Debug = True
 	for d in files:
 		print "Parsing {}".format(d)
 		try:
-			parse_file_from_str(d)
+			parse_file(d)
 		except NotDicomException:
 			print "\tNot a dicom file!"
 		except:
