@@ -101,11 +101,11 @@ def save_thumbnail(filename):
 	# extract the JPEG from the DICOM file
 	print subprocess.check_output(["dcmj2pnm", filename, jpeg_filename])
 
-	if os.path.is_file(jpeg_filename):
+	if os.path.isfile(jpeg_filename):
 		# convert the JPEG into a readable format for pillow
 		print subprocess.check_output(["econvert", "-i", jpeg_filename, "-o", jpeg_filename])
 		i = Image.open(jpeg_filename)
-		i.thumbnail(128, 128)
+		i.thumbnail((128, 128))
 		thumbnail_fname = jpeg_filename[:-3] + "thumbnail.jpg"
 		i.save(thumbnail_fname)
 		return thumbnail_fname
@@ -155,13 +155,10 @@ def parse_file(filename, f):
 	thumbnail = None
 	for field in data_fields:
 		if field["group"] == 0x7fe0 and field["element"] == 0x10:
-			try:
-				thumbnail = save_thumbnail(filename)
-			except:
-				pass
+			thumbnail = save_thumbnail(filename)
 			break
 
-	return (fields + data_fields), thumbnail
+	return (meta_fields + data_fields), thumbnail
 
 def parse_file_from_str(filename):
 	with open(filename, "rb") as f:
