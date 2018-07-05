@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.db import models
 from django.urls import reverse
 from constants import tag_map, vr_map
-from django.utils.html import mark_safe
 
 class DicomFile(models.Model):
 	filename = models.CharField(max_length=200)
@@ -61,9 +60,7 @@ class DicomThumbnail(models.Model):
 	thumbnail = models.ImageField(null=True)
 	file = models.ForeignKey('DicomFile', on_delete=models.CASCADE)
 
-        def get_thumbnail(self):
-            return mark_safe('<img src="{url}" width="{width}" height="{height}"/>').format(
-                    url=self.thumbnail.url,
-                    width=self.thumbnail.width,
-                    height=self.thumbnail.height,
-                    )
+        def get_url(self):
+			x = self.thumbnail.name
+			idx = x.find('/media/')
+			x[idx:]

@@ -24,7 +24,7 @@
 			<h5>Size: {{ file.filesize_str }}</h5>
 		</div>
 		<div class="col-sm-8">
-			<img src={{ thumbnail.thumbnail.url }} width="128px" height="128px"/>
+			<img src={{ thumbnail.get_url }} width="128px" height="128px"/>
 		</div>
 	{% else %}
 		<div style="margin-left:50px" class="col-sm-4">
