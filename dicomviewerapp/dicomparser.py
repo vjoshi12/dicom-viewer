@@ -155,7 +155,10 @@ def parse_file(filename, f):
 	thumbnail = None
 	for field in data_fields:
 		if field["group"] == 0x7fe0 and field["element"] == 0x10:
-			thumbnail = save_thumbnail(filename)
+			try:
+				thumbnail = save_thumbnail(filename)
+			except:
+				pass
 			break
 
 	return (fields + data_fields), thumbnail
