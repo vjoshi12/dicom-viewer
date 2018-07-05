@@ -18,10 +18,20 @@
 </div>
 
 <div style="margin-top:50px" class="row">
-	<div style="margin-left:50px" class="col-sm-4">
-		<h2>File: {{ file.filename }}</h2>
-		<h5>Size: {{ file.filesize_str }}</h5>
-	</div>
+	{% if thumbnail %}
+		<div style="margin-left:50px" class="col-sm-4">
+			<h2>File: {{ file.filename }}</h2>
+			<h5>Size: {{ file.filesize_str }}</h5>
+		</div>
+		<div class="col-sm-8">
+			<img src={{ thumbnail.thumbnail.url }}>
+		</div>
+	{% else %}
+		<div style="margin-left:50px" class="col-sm-4">
+			<h2>File: {{ file.filename }}</h2>
+			<h5>Size: {{ file.filesize_str }}</h5>
+		</div>
+	{% endif %}
 </div>
 
 <div style="margin-top:50px" class="row">

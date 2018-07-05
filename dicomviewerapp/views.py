@@ -88,4 +88,4 @@ def details(request, pk):
 		raise Http404("File with ID {} does not exist".format(pk))
 	return render(request,
 		          'app/file-detail.html',
-		          {'file': file_id, 'values': file_id.get_values()})
+		          {'file': file_id, 'values': file_id.get_values(), 'thumbnail': file_id.get_thumbnail()})

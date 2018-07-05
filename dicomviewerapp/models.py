@@ -29,6 +29,12 @@ class DicomFile(models.Model):
 	def get_values(self):
 		return DicomDataValue.objects.filter(file=self)
 
+	def get_thumbnail(self):
+		try:
+			return DicomThumbnail.objects.get(file=self)
+		except:
+			return None
+
 	def get_absolute_url(self):
 		return reverse("file-detail", args=[self.id])
 
