@@ -69,13 +69,16 @@
 {% endif %}
 
 {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-        {{ message }}
-    </li>
-    {% endfor %}
-</ul>
+<div style="margin-top:50px" class="row">
+	<div class="col"></div>
+	<div class="col-8 alert alert-danger">
+    		{% for message in messages %}
+			{{ message }}
+		{% endfor %}
+	</div>
+	<div class="col"></div>
+</div>
+
 {% endif %}
 
 <div class="modal fade" id="myModal">

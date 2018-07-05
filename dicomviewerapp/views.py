@@ -45,7 +45,7 @@ def get_values(fields, values):
 	return get_values(fields, values)
 
 def handle_upload(file):
-	fields, thumbnail = dparse.parse_file(file)
+	fields, thumbnail = dparse.parse_file(file.name, file)
 	size = file.size
 	new_file = DicomFile(filename=file.name, filesize=file.size)
 	for f in fields:
