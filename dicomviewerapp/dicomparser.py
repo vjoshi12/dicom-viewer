@@ -155,7 +155,10 @@ def parse_file(filename, f):
 	thumbnail = None
 	for field in data_fields:
 		if field["group"] == 0x7fe0 and field["element"] == 0x10:
-			thumbnail = save_thumbnail(filename)
+			try:
+				thumbnail = save_thumbnail(filename)
+			except:
+				print "\tSaving thumbnail failed for {}".format(filename)
 			break
 
 	return (meta_fields + data_fields), thumbnail
@@ -173,8 +176,5 @@ if __name__ == "__main__":
 			parse_file_from_str(d)
 		except NotDicomException:
 			print "\tNot a dicom file!"
-		except NotImplementedError:
-			print "\tNot implemented error"
-			raise
 		except:
 			raise

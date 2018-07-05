@@ -49,3 +49,7 @@ class DicomDataValue(models.Model):
 
 	def vr_desc(self):
 		return "{} ({})".format(vr_map.get(self.vr, ""), self.vr)
+
+class DicomThumbnail(models.Model):
+	thumbnail = models.ImageField()
+	file = models.ForeignKey('DicomFile', on_delete=models.CASCADE)
