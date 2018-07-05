@@ -8,8 +8,17 @@ from .forms import UploadForm
 from .models import DicomFile, DicomDataValue, DicomThumbnail
 import dicomparser as dparse
 
-def get_value_from_data(data):
-	if type(data) == str:
+def get_age_str(data):
+	try:
+		suffix = {'D': 'days', 'W': 'weeks', 'M': 'months', 'Y': 'years'}
+		return str(int(data[:3])) + " " + suffix[data[3]]
+	except:
+		return str(data)
+
+def get_value_from_data(vr, data):
+	if vr == "AS":
+		val = get_age_str(data)
+	if type(data) == str or type(data) == unicode:
 		val = data
 	elif type(data) == int:
 		val = str(data)
