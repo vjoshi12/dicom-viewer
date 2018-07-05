@@ -103,7 +103,8 @@ def save_thumbnail(filename):
 
 	if os.path.isfile(jpeg_filename):
 		# convert the JPEG into a readable format for pillow
-		print subprocess.check_output(["econvert", "-i", jpeg_filename, "-o", jpeg_filename])
+                png_filename = jpeg_filename[:-3] + "png"
+		print subprocess.check_output(["econvert", "-i", jpeg_filename, "-o", png_filename])
 		i = Image.open(jpeg_filename)
 		i.thumbnail((128, 128))
 		thumbnail_fname = jpeg_filename[:-3] + "thumbnail.jpg"
