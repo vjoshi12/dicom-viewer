@@ -1,9 +1,9 @@
 Dependencies:
-	- numpy
 	- pillow
 	- libjpeg
-	- openjpeg
-	- widget_tweaks
+	- django-widget-tweaks
+	- dcmj2pnm
+	- econvert
 
 Things that can be improved:
 	- Remove unused django cruft:
