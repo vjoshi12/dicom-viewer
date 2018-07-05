@@ -19,12 +19,14 @@
 
 <div style="margin-top:50px" class="row">
 	{% if thumbnail %}
-		<div style="margin-left:50px" class="col-sm-4">
-			<h2>File: {{ file.filename }}</h2>
-			<h5>Size: {{ file.filesize_str }}</h5>
+		<div class="col-sm-4">
+			<div style="margin-left:50px">
+				<h2>File: {{ file.filename }}</h2>
+				<h5>Size: {{ file.filesize_str }}</h5>
+			</div>
 		</div>
 		<div class="col-sm-8">
-			<img src={{ thumbnail.get_url }} width="128px" height="128px"/>
+			<img src="{{ thumbnail.get_thumbnail_url }}"/>
 		</div>
 	{% else %}
 		<div style="margin-left:50px" class="col-sm-4">
@@ -36,18 +38,22 @@
 
 <div style="margin-top:50px" class="row">
 	<div class="col-sm"></div>
+	<div class="col-sm"><h5>ID</h5></div>
 	<div class="col-sm"><h5>Tag</h5></div>
-	<div class="col-sm"><h5>VR</h5></div>
+	<div class="col-sm"><h5>Value Representation</h5></div>
+	<div class="col-sm"><h5>Value</h5></div>
+	<div class="col-sm"><h5>Parent</h5><div>
 	<div class="col-sm"></div>
 </div>
 
 {% for value in values %}
-	<div style="margin-top:15px; border-bottom-style:groove;" class="row">
+	<div style="margin-top:30px" class="row">
 		<div class="col-sm"></div>
-		<div class="col-sm">
-			<div>{{ value.tag }}</div>
-			<div>{{ value.tag_desc }}</div>
-		</div>
+		<div class="col-sm">{{ value.id }}</div>
+		<div class="col-sm" {% if value.meta %}style="background:light-grey" {% endif %}>{{ value.tag }}</div>
+		<div class="col-sm">{{ value.tag_desc }}</div>
+		<div class="col-sm">{{ value.value }}</div>
+		<div class="col-sm">{{ value.parent }}</div>
 		<div class="col-sm">{{ value.vr_desc }}</div>
 		<div class="col-sm"></div>
 	</div>

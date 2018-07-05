@@ -60,7 +60,7 @@ class DicomThumbnail(models.Model):
 	thumbnail = models.ImageField(null=True)
 	file = models.ForeignKey('DicomFile', on_delete=models.CASCADE)
 
-        def get_url(self):
+        def get_thumbnail_url(self):
 			x = self.thumbnail.name
 			idx = x.find('/media/')
-			x[idx:]
+			return x[idx:]
