@@ -36,25 +36,21 @@
 	{% endif %}
 </div>
 
-<div style="margin-top:50px" class="row">
-	<div class="col-sm"></div>
-	<div class="col-sm"><h5>ID</h5></div>
-	<div class="col-sm"><h5>Tag</h5></div>
-	<div class="col-sm"><h5>Value Representation</h5></div>
-	<div class="col-sm"><h5>Value</h5></div>
-	<div class="col-sm"><h5>Parent</h5><div>
-	<div class="col-sm"></div>
-</div>
-
-{% for value in values %}
-	<div style="margin-top:30px" class="row">
-		<div class="col-sm"></div>
-		<div class="col-sm">{{ value.id }}</div>
-		<div class="col-sm" {% if value.meta %}style="background:light-grey" {% endif %}>{{ value.tag }}</div>
-		<div class="col-sm">{{ value.tag_desc }}</div>
-		<div class="col-sm">{{ value.value }}</div>
-		<div class="col-sm">{{ value.parent }}</div>
-		<div class="col-sm">{{ value.vr_desc }}</div>
-		<div class="col-sm"></div>
-	</div>
-{% endfor %}
+<table style="margin-top:50px" class="table thead-dark">
+	<tr>
+		<th>ID</th>
+		<th>Tag</th>
+		<th>Value Representation</th>
+		<th>Value</th>
+		<th>Parent</th>
+	</tr>
+	{% for value in values %}
+		<tr {% if value.meta %}style="background:light-grey" {% endif %}>
+			<td>{{ value.id }}</td>
+			<td>{{ value.tag }} {{ value.tag_desc }}</td>
+			<td>{{ value.vr_desc }}</td>
+			<td>{{ value.value }}</td>
+			<td>{{ value.parent }}</td>
+		</tr>
+	{% endfor %}
+</table>
