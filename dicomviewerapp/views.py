@@ -50,7 +50,7 @@ def get_values(fields, values):
 			children.append(child)
 		fields = fields + children
 	else:
-		val = get_value_from_data(f["data"])
+		val = get_value_from_data(vr, f["data"])
 		new_value.value = val
 	values.append(new_value)
 	return get_values(fields, values)
